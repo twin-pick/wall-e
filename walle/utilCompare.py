@@ -10,11 +10,11 @@ def matchFilm(dico):
     matchedFilm = {}
     for user in dico:
         for film in dico[user]:
-            if (not(film["title"] in dejavu)):
-                counter = successFilm(film["title"],dico)
+            if (not(film in dejavu)):
+                counter = successFilm(film,dico)
                 if counter["boole"]:
-                    dejavu.add(film["title"])
-                    matchedFilm[film["title"]] ={"film":film,"count": counter["count"]}
+                    dejavu.add(film)
+                    matchedFilm[film] ={"film":film,"count": counter["count"]}
     sorte = dict(sorted(matchedFilm.items(), key=lambda item: item[1]["count"], reverse=True))
     return sorte
     

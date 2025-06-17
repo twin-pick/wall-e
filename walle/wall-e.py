@@ -33,58 +33,46 @@ session.headers.update(headers)
 
 
 
-def ScrapWatchList(userNames, genres):
-    usernames = userNames
+def ScrapWatchList(username, genres = []):
     userFilm = {}
     genre = genres
-    for username in usernames:
-        index = 1
-        boucle = True
-        if (len(genre) > 0): 
-            url = "https://letterboxd.com/" +username +"/watchlist/"+"genre/"+ getGenre(genre) +"/by/rating/page/"
-        else :
-            url ="https://letterboxd.com/" +username +"/watchlist/"+"by/rating/page/"
-        print(url)
-        films = []
-        newList = []
-        print(index)
-        while (boucle and index < 1000):
-            response = session.get(url + str(index))
-        
-            # Vérifie si la requête s'est bien passée
-            if response.status_code == 200:
-                print("Page chargée avec succès !")
-                soup = BeautifulSoup(response.text, "html.parser")
-                quotes = soup.find_all("li", class_="poster-container")
-                if (len(quotes) ==0 ):
-                    boucle = False
-                films =films + quotes
-                index+=1
-            
-                
-            else:
-                print("t'es ban")
+    index = 1
+    boucle = True
+    if (len(genre) > 0): 
+        url = "https://letterboxd.com/" +username +"/watchlist/"+"genre/"+ getGenre(genre) +"/by/rating/page/"
+    else :
+        url ="https://letterboxd.com/" +username +"/watchlist/"+"by/rating/page/"
+    print(url)
+    films = []
+    newList = []
+    print(index)
+    while (boucle and index < 1000):
+        response = session.get(url + str(index))
+    
+        # Vérifie si la requête s'est bien passée
+        if response.status_code == 200:
+            print("Page chargée avec succès !")
+            soup = BeautifulSoup(response.text, "html.parser")
+            quotes = soup.find_all("li", class_="poster-container")
+            if (len(quotes) ==0 ):
                 boucle = False
-            #time.sleep(random.uniform(0.5, 1))
+            films =films + quotes
+            index+=1
+        
             
-            
-        print(len(films))
-        print(index)
-        print(films[0].prettify()[:20000])
-        for film in films:
-            title = film.find("img", class_="image").get("alt")
-            link = film.find("img", class_="image").get("src")
-            #year = getDate(film.find("a", class_="frame has-menu").get("target-data-original-titel"))
-            newList.append({"title" : title, "imageLink":link})
-        userFilm[username] = newList
+        else:
+            print("t'es ban")
+            boucle = False
+        #time.sleep(random.uniform(0.5, 1))
+        
+
+    for film in films:
+        title = film.find("img", class_="image").get("alt")
+        #year = getDate(film.find("a", class_="frame has-menu").get("target-data-original-titel"))
+        newList.append(title)
+    userFilm[username] = newList
     
     
-    return matchFilm(userFilm)
+    return userFilm[username]
 
 
-
-
-
-
-    
-print(ScrapWatchList(["66Sceptre","abroudoux"], ["horror"]))
