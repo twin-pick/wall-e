@@ -1,23 +1,16 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jun 16 14:50:11 2025
-
-@author: arthu
-"""
-
 import requests
 from bs4 import BeautifulSoup
 import random
 import time
-from utils.utilCompare import matchFilm
+from compare import match_film
 
-def getGenre(list):
+def get_genre(list):
     retour = ""
     for name in list:
         retour += name + "+"
     return retour[:-1]
 
-def getDate(name):
+def get_date(name):
     retour=""
     for char in name:
         if char in "0123456789":
@@ -33,18 +26,18 @@ session.headers.update(headers)
 
 
 
-def ScrapWatchList(username, genres = []):
-    userFilm = {}
+def scrap_watch_list(username, genres = []):
+    user_film = {}
     genre = genres
     index = 1
     boucle = True
     if (len(genre) > 0): 
-        url = "https://letterboxd.com/" +username +"/watchlist/"+"genre/"+ getGenre(genre) +"/by/rating/page/"
+        url = "https://letterboxd.com/" +username +"/watchlist/"+"genre/"+ get_genre(genre) +"/by/rating/page/"
     else :
         url ="https://letterboxd.com/" +username +"/watchlist/"+"by/rating/page/"
     print(url)
     films = []
-    newList = []
+    new_list = []
     print(index)
     while (boucle and index < 1000):
         response = session.get(url + str(index))
@@ -69,10 +62,10 @@ def ScrapWatchList(username, genres = []):
     for film in films:
         title = film.find("img", class_="image").get("alt")
         #year = getDate(film.find("a", class_="frame has-menu").get("target-data-original-titel"))
-        newList.append(title)
-    userFilm[username] = newList
+        new_list.append(title)
+    user_film[username] = new_list
     
     
-    return userFilm[username]
+    return user_film[username]
 
 

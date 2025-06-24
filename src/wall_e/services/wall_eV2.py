@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jun 23 14:08:58 2025
-
-@author: arthu
-"""
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -14,15 +7,15 @@ import random
 import re
 
 
-from utils.utilCompare import matchFilm  # tu le gardes si tu l’utilises plus tard
+from compare import match_film  # tu le gardes si tu l’utilises plus tard
 
-def getGenre(liste):
+def get_genre(liste):
     return "+".join(liste)
 
 
 
 def scrap_watch_list(username, genres=[]):
-    userFilm = {}
+    user_film = {}
     genre = genres
     index = 1
     films = []
@@ -30,7 +23,7 @@ def scrap_watch_list(username, genres=[]):
 
 
     if genre:
-        url = f"https://letterboxd.com/{username}/watchlist/genre/{getGenre(genre)}/by/rating/page/"
+        url = f"https://letterboxd.com/{username}/watchlist/genre/{get_genre(genre)}/by/rating/page/"
     else:
         url = f"https://letterboxd.com/{username}/watchlist/by/rating/page/"
     
@@ -65,7 +58,7 @@ def scrap_watch_list(username, genres=[]):
     finally:
         driver.quit()
 
-    newList = []
+    new_list = []
     for film in films:
         span = film.find("span", class_="frame-title")
         if span:
@@ -75,8 +68,8 @@ def scrap_watch_list(username, genres=[]):
             if match:
                 nom = match.group(1)
                 date = match.group(2)
-                newList.append({"title": nom, "date": date})
+                new_list.append({"title": nom, "date": date})
 
-    userFilm[username] = newList
-    return userFilm[username]
+    user_film[username] = new_list
+    return user_film[username]
 
