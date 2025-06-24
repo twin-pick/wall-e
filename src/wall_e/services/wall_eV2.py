@@ -14,14 +14,14 @@ import random
 import re
 
 
-from utilCompare import matchFilm  # tu le gardes si tu l’utilises plus tard
+from utils.utilCompare import matchFilm  # tu le gardes si tu l’utilises plus tard
 
 def getGenre(liste):
     return "+".join(liste)
 
 
 
-def ScrapWatchList(username, genres=[]):
+def scrap_watch_list(username, genres=[]):
     userFilm = {}
     genre = genres
     index = 1

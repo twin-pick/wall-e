@@ -7,6 +7,8 @@ app = FastAPI()
 async def hello_world():
     return {"message": "Hello world"}
 
-# @app.get("/api/v1/{user}/watchlist")
-# async def scrap_user(user: str):
-    # TODO: Ajouté la logique
+@app.get("/api/v1/{user}/watchlist")
+async def scrap_user(user: str):
+    print(user)
+    list = scrap_watch_list(user)
+    return list
