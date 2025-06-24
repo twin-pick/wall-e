@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./src/wall_e/utils",
+        "./src/wall_e"
+    ]
+}
