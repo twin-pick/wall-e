@@ -1,0 +1,24 @@
+[project]
+name = "wall-e"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Florian Gehin",email = "florian.gehin@epitech.eu"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi (>=0.115.13,<0.116.0)",
+    "uvicorn (>=0.34.3,<0.35.0)",
+    "selenium (>=4.33.0,<5.0.0)",
+    "bs4 (>=0.0.2,<0.0.3)",
+    "requests (>=2.32.4,<3.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "wall_e", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
