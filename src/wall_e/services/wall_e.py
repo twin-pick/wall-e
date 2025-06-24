@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import random
 import time
-from compare import match_film
+from utils.compare import match_film
 
 def get_genre(list):
     retour = ""
