@@ -1,21 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
-import random
-import time
 from utils.compare import match_film
 
 def get_genre(list):
-    retour = ""
+    name_list = ""
     for name in list:
-        retour += name + "+"
-    return retour[:-1]
+        name_list += name + "+"
+    return name_list[:-1]
 
 def get_date(name):
-    retour=""
+    date = ""
     for char in name:
         if char in "0123456789":
-            retour += char
-    return retour
+            date += char
+    return date
 
 
 headers = {
@@ -26,15 +24,14 @@ session.headers.update(headers)
 
 
 
-def scrap_watch_list(username, genres = []):
+def scrap_watch_list(username, genre = []):
     user_film = {}
-    genre = genres
     index = 1
     boucle = True
     if (len(genre) > 0): 
-        url = "https://letterboxd.com/" +username +"/watchlist/"+"genre/"+ get_genre(genre) +"/by/rating/page/"
+        url = "https://letterboxd.com/" + username + "/watchlist/genre/" + get_genre(genre) + "/by/rating/page/"
     else :
-        url ="https://letterboxd.com/" +username +"/watchlist/"+"by/rating/page/"
+        url = "https://letterboxd.com/" + username + "/watchlist/by/rating/page/"
     print(url)
     films = []
     new_list = []
@@ -49,19 +46,17 @@ def scrap_watch_list(username, genres = []):
             quotes = soup.find_all("li", class_="poster-container")
             if (len(quotes) ==0 ):
                 boucle = False
-            films =films + quotes
-            index+=1
+            films = films + quotes
+            index += 1
         
             
         else:
-            print("t'es ban")
+            print("Time out")
             boucle = False
-        #time.sleep(random.uniform(0.5, 1))
         
 
     for film in films:
         title = film.find("img", class_="image").get("alt")
-        #year = getDate(film.find("a", class_="frame has-menu").get("target-data-original-titel"))
         new_list.append(title)
     user_film[username] = new_list
     
