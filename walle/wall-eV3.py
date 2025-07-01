@@ -72,6 +72,7 @@ async def scrap_watchlist(username, genres=[], batch_size=5):
     return all_films
 
 # Exemple d'appel
+'''
 async def main():
     username = "66Sceptre"
     genres = []  # ← Laisse vide si tu ne veux pas filtrer
@@ -79,5 +80,7 @@ async def main():
     print(f"\n🎬 {len(films)} films trouvés pour {username}")
     for film in films[:5]:
         print(f"  - {film['title']} ({film['date']})")
+ 
 
 asyncio.run(main())
+'''
