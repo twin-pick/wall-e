@@ -12,7 +12,9 @@ dependencies = [
     "uvicorn (>=0.34.3,<0.35.0)",
     "selenium (>=4.33.0,<5.0.0)",
     "bs4 (>=0.0.2,<0.0.3)",
-    "requests (>=2.32.4,<3.0.0)"
+    "requests (>=2.32.4,<3.0.0)",
+    "playwright (>=1.53.0,<2.0.0)",
+    "asyncio (>=3.4.3,<4.0.0)"
 ]
 
 [tool.poetry]
