@@ -32,7 +32,7 @@ async def scrap_watchlist_page(page, username, page_num, genre_url):
     return films
 
 # Fonction principale
-async def scrap_watch_list(username, genres=[], batch_size=5):
+async def scrap_watchlist(username, genres=[], batch_size=5):
     all_films = []
     genre_url = getGenre(genres) if genres else ""
 
@@ -72,15 +72,13 @@ async def scrap_watch_list(username, genres=[], batch_size=5):
     return all_films
 
 # Exemple d'appel
-'''
-async def main():
-    username = "66Sceptre"
+
+async def Scrap(username):
     genres = []  # ← Laisse vide si tu ne veux pas filtrer
     films = await scrap_watchlist(username, genres,20)
     print(f"\n🎬 {len(films)} films trouvés pour {username}")
     for film in films[:5]:
         print(f"  - {film['title']} ({film['date']})")
  
-
-asyncio.run(main())
-'''
+async def scrap_watch_list(username):
+    await asyncio.run(main(username))

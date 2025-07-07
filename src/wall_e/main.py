@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import asyncio
 from services.wall_eV3 import scrap_watch_list as scrap_mark3
 from services.wall_eV2 import scrap_watch_list as scrap_v2
 from services.wall_e import scrap_watch_list as scrap
