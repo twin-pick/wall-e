@@ -32,7 +32,7 @@ async def scrap_watchlist_page(page, username, page_num, genre_url):
     return films
 
 # Fonction principale
-async def scrap_watchlist(username, genres=[], batch_size=5):
+async def scrap_watch_list(username, genres=[], batch_size=5):
     all_films = []
     genre_url = getGenre(genres) if genres else ""
 

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from services.wall_eV3 import scrap_watch_list as scrap_mark3
 from services.wall_eV2 import scrap_watch_list as scrap_v2
 from services.wall_e import scrap_watch_list as scrap
 
@@ -18,4 +19,10 @@ async def scrap_user(user: str):
 async def scrap_user(user: str):
     print(user)
     list = scrap_v2(user)
+    return list
+
+@app.get("/api/v3/{user}/watchlist")
+async def scrap_user(user: str):
+    print(user)
+    list = await scrap_mark3(user)
     return list

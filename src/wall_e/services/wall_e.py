@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from utils.compare import match_film
 
 def get_genre(list):
     name_list = ""

@@ -6,9 +6,6 @@ import time
 import random
 import re
 
-
-from utils.compare import match_film  # tu le gardes si tu l’utilises plus tard
-
 def get_genre(liste):
     return "+".join(liste)
 
