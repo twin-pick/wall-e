@@ -1,29 +1,56 @@
-from fastapi import FastAPI
 import asyncio
+from fastapi import FastAPI
 from services.wall_eV3 import scrap_watch_list as scrap_mark3
-from services.wall_eV2 import scrap_watch_list as scrap_v2
+from services.wall_eV2 import scrap_watch_list as scrap_mark2
 from services.wall_e import scrap_watch_list as scrap
 
 app = FastAPI()
+
 
 @app.get("/")
 async def hello_world():
     return {"message": "Hello world"}
 
+
 @app.get("/api/v1/{user}/watchlist")
-async def scrap_user(user: str):
+async def scrap_user_mark1(user: str):
     print(user)
     list = scrap(user)
+    return list
+
+
+@app.get("/api/v1/{user}/watchlist/{genre}")
+async def scrap_user_genre_mark1(user: str, genre: str):
+    genre = genre.split(',');
+    print(genre)
+    list = scrap(user, genre)
     return list
 
 @app.get("/api/v2/{user}/watchlist")
 async def scrap_user(user: str):
     print(user)
-    list = scrap_v2(user)
+    list = scrap_mark2(user)
     return list
 
+
+@app.get("/api/v2/{user}/watchlist/{genre}")
+async def scrap_user(user: str, genre: str):
+    genre = genre.split(',');
+    print(genre)
+    list = scrap_mark2(user, genre)
+    return list
+
+
 @app.get("/api/v3/{user}/watchlist")
-async def scrap_user(user: str):
+async def scrap_user_mark3(user: str):
     print(user)
     list = await scrap_mark3(user)
+    return list
+
+
+@app.get("/api/v3/{user}/watchlist/{genre}")
+async def scrap_user_genre_mark3(user: str, genre: str):
+    genre = genre.split(',');
+    print(genre)
+    list = scrap_mark3(user, genre)
     return list
