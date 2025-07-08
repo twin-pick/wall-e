@@ -14,7 +14,8 @@ async def scrap_watchlist_page(page, username, page_num, genre_url):
 
     await page.goto(url)
     try:
-        await page.wait_for_selector(".poster-container", timeout=8000)
+        await page.wait_for_selector(".poster-container", timeout=4000)
+        await page.wait_for_timeout(200)
     except:
         return []  # Timeout ou page vide
 
@@ -72,15 +73,16 @@ async def scrap_watchlist(username, genres=[], batch_size=5):
     return all_films
 
 # Exemple d'appel
-'''
-async def main():
-    username = "66Sceptre"
-    genres = []  # ← Laisse vide si tu ne veux pas filtrer
+
+async def scrap_watch_list(username, genres = []):
+    #username = "66Sceptre"
+    #genres = []  # ← Laisse vide si tu ne veux pas filtrer
     films = await scrap_watchlist(username, genres,20)
     print(f"\n🎬 {len(films)} films trouvés pour {username}")
     for film in films[:5]:
         print(f"  - {film['title']} ({film['date']})")
+    return films
  
-
+'''
 asyncio.run(main())
 '''
