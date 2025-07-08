@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from services.wall_eV2 import scrap_watch_list as scrap_v2
-from services.wall_e import scrap_watch_list as scrap
+from src.wall_e.services.wall_eV2 import scrap_watch_list as scrap_v2
+from src.wall_e.services.wall_e import scrap_watch_list as scrap
 
 app = FastAPI()
 
