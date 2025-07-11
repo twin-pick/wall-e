@@ -26,3 +26,7 @@ async def scrap_user(user: str):
     print(user)
     list = await scrap_v3(user)
     return list
+
+@app.get("/api/health")
+async def health():
+    return

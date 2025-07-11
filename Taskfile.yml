@@ -9,9 +9,8 @@ tasks:
   dev:
     desc: Launch the server
     deps: [install]
-    dir: src/wall_e
     cmds:
-      - uvicorn main:app
+      - uvicorn src.wall_e.main:app
   venv:
     desc: Launch virtual environement
     cmds:
