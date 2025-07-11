@@ -1,13 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import time
 import random
 import re
 
+
 def get_genre(liste):
     return "+".join(liste)
+
 
 def scrap_watch_list(username, genres=[]):
     user_film = {}
@@ -15,13 +16,14 @@ def scrap_watch_list(username, genres=[]):
     index = 1
     films = []
     boucle = True
-
+    domain = "https://letterboxd.com/"
+    sort = "/by/rating/page/"
 
     if genre:
-        url = f"https://letterboxd.com/{username}/watchlist/genre/{get_genre(genre)}/by/rating/page/"
+        url = f"{domain}{username}/watchlist/genre/{get_genre(genre)}{sort}"
     else:
-        url = f"https://letterboxd.com/{username}/watchlist/by/rating/page/"
-    
+        url = f"{domain}{username}/watchlist/{sort}"
+
     print("URL:", url)
 
     # Configuration de Selenium (headless facultatif)
@@ -36,15 +38,16 @@ def scrap_watch_list(username, genres=[]):
         while boucle and index < 1000:
             print(f"Chargement de la page {index}")
             driver.get(url + str(index))
-            time.sleep(random.uniform(0.1, 0.15))  # attendre un peu que la page charge
+            # attendre un peu que la page charge
+            time.sleep(random.uniform(0.1, 0.15))
 
             # Utiliser BeautifulSoup sur la source HTML complète
             soup = BeautifulSoup(driver.page_source, "html.parser")
 
             quotes = soup.find_all("li", class_="poster-container")
-            
+
             if not quotes:
-                print("Aucun film trouvé sur cette page.")
+                print("No movie found.")
                 boucle = False
             else:
                 films += quotes
@@ -59,7 +62,7 @@ def scrap_watch_list(username, genres=[]):
         if span:
             value = span.get_text()
             match = re.match(r"^(.*)\s\((\d{4})\)$", value)
-            
+
             if match:
                 nom = match.group(1)
                 date = match.group(2)
@@ -67,4 +70,3 @@ def scrap_watch_list(username, genres=[]):
 
     user_film[username] = new_list
     return user_film[username]
-

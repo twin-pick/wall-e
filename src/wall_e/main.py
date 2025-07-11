@@ -1,4 +1,3 @@
-import asyncio
 from fastapi import FastAPI
 from services.wall_eV3 import scrap_watch_list as scrap_mark3
 from services.wall_eV2 import scrap_watch_list as scrap_mark2
@@ -21,21 +20,22 @@ async def scrap_user_mark1(user: str):
 
 @app.get("/api/v1/{user}/watchlist/{genre}")
 async def scrap_user_genre_mark1(user: str, genre: str):
-    genre = genre.split(',');
+    genre = genre.split(',')
     print(genre)
     list = scrap(user, genre)
     return list
 
+
 @app.get("/api/v2/{user}/watchlist")
-async def scrap_user(user: str):
+async def scrap_user_mark2(user: str):
     print(user)
     list = scrap_mark2(user)
     return list
 
 
 @app.get("/api/v2/{user}/watchlist/{genre}")
-async def scrap_user(user: str, genre: str):
-    genre = genre.split(',');
+async def scrap_user_genre_mark2(user: str, genre: str):
+    genre = genre.split(',')
     print(genre)
     list = scrap_mark2(user, genre)
     return list
@@ -48,13 +48,14 @@ async def scrap_user_mark3(user: str):
     return list
 
 
-@app.get("/api/health")
-async def health():
-    return
-
 @app.get("/api/v3/{user}/watchlist/{genre}")
 async def scrap_user_genre_mark3(user: str, genre: str):
-    genre = genre.split(',');
+    genre = genre.split(',')
     print(genre)
     list = scrap_mark3(user, genre)
     return list
+
+
+@app.get("/api/health")
+async def health():
+    return
