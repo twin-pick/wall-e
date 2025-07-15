@@ -84,14 +84,9 @@ async def scrap_watchlist(username, genres=[], batch_size=5):
     return all_films
 
 
-async def Scrap(username):
-    genres = []
+async def scrap_watch_list(username, genres=[]):
     films = await scrap_watchlist(username, genres, 20)
     print(f"\n🎬 {len(films)} movie found for {username}")
     for film in films[:5]:
         print(f"  - {film['title']} ({film['date']})")
     return films
-
-
-async def scrap_watch_list(username):
-    await asyncio.run(Scrap(username))
