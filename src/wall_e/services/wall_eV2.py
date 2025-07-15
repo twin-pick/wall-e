@@ -6,8 +6,8 @@ import random
 import re
 
 
-def get_genre(liste):
-    return "+".join(liste)
+def get_genre_url_str(list_genres):
+    return "+".join(list_genres)
 
 
 def scrap_watch_list(username, genres=[]):
@@ -16,11 +16,11 @@ def scrap_watch_list(username, genres=[]):
     index = 1
     films = []
     boucle = True
-    url_start = f"https://letterboxd.com/{domain}{username}/watchlist/"
+    url_start = f"https://letterboxd.com/{username}/watchlist/"
     sort = "/by/rating/page/"
 
     if genre:
-        url = f"{url_start}genre/{get_genre(genre)}{sort}"
+        url = f"{url_start}genre/{get_genre_url_str(genre)}{sort}"
     else:
         url = f"{url_start}{sort}"
 
