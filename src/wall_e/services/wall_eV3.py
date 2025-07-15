@@ -10,12 +10,12 @@ def getGenre(liste):
 # Fonction pour scraper une seule page
 async def scrap_watchlist_page(page, username, page_num, genre):
 
-    domain = "https://letterboxd.com/"
+    url_start = f"https://letterboxd.com/{domain}{username}/watchlist/"
     sort = "/by/rating/page/"
     if genre:
-        url = f"{domain}{username}/watchlist/genre/{genre}{sort}{page_num}/"
+        url = f"{url_start}genre/{genre}{sort}{page_num}/"
     else:
-        url = f"{domain}{username}/watchlist/{sort}{page_num}/"
+        url = f"{url_start}{sort}{page_num}/"
 
     await page.goto(url)
     try:
