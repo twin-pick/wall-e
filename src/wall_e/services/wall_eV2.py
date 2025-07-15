@@ -16,13 +16,13 @@ def scrap_watch_list(username, genres=[]):
     index = 1
     films = []
     boucle = True
-    domain = "https://letterboxd.com/"
+    url_start = f"https://letterboxd.com/{domain}{username}/watchlist/"
     sort = "/by/rating/page/"
 
     if genre:
-        url = f"{domain}{username}/watchlist/genre/{get_genre(genre)}{sort}"
+        url = f"{url_start}genre/{get_genre(genre)}{sort}"
     else:
-        url = f"{domain}{username}/watchlist/{sort}"
+        url = f"{url_start}{sort}"
 
     print("URL:", url)
 
