@@ -9,8 +9,9 @@ tasks:
   dev:
     desc: Launch the server
     deps: [install]
+    dir: src/wall_e
     cmds:
-      - uvicorn src.wall_e.main:app
+      - poetry run uvicorn main:app
   venv:
     desc: Launch virtual environement
     cmds:
