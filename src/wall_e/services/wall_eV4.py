@@ -3,9 +3,19 @@ import re
 from playwright.async_api import async_playwright
 from multiprocessing import Pool, cpu_count
 
+
+def start(username):
+    return f"https://letterboxd.com/{username}/watchlist"
+
+
+def end(page_num):
+    return f"/by/rating/page/{page_num}/"
+
+
 def scrap_single_page_wrapper(args):
     username, page_num, genre_url = args
     return asyncio.run(scrap_single_page(username, page_num, genre_url))
+
 
 async def scrap_single_page(username, page_num, genre_url):
     async with async_playwright() as p:
@@ -13,14 +23,14 @@ async def scrap_single_page(username, page_num, genre_url):
         context = await browser.new_context()
         page = await context.new_page()
 
-        url = f"https://letterboxd.com/{username}/watchlist/by/rating/page/{page_num}/"
+        url = start(username) + end(page_num)
         if genre_url:
-            url = f"https://letterboxd.com/{username}/watchlist/genre/{genre_url}/by/rating/page/{page_num}/"
+            url = start(username) + f"/genre/{genre_url}" + end(page_num)
 
         await page.goto(url)
         try:
             await page.wait_for_selector(".poster-container", timeout=4000)
-        except:
+        except Exception:
             await browser.close()
             return []
 
@@ -34,10 +44,11 @@ async def scrap_single_page(username, page_num, genre_url):
                 films.append({"title": match.group(1), "date": match.group(2)})
         return films
 
+
 async def get_total_pages(username, genre_url=""):
     url = f"https://letterboxd.com/{username}/watchlist/by/rating/"
     if genre_url:
-        url = f"https://letterboxd.com/{username}/watchlist/genre/{genre_url}/by/rating/"
+        url = start(username) + f"/genre/{genre_url}/by/rating/"
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -45,13 +56,14 @@ async def get_total_pages(username, genre_url=""):
         await page.goto(url)
         try:
             await page.wait_for_selector(".paginate-page", timeout=4000)
-        except:
+        except Exception:
             await browser.close()
             return 0
         pages = await page.locator(".paginate-page").all_text_contents()
         await browser.close()
         page_numbers = [int(p) for p in pages if p.isdigit()]
         return max(page_numbers) if page_numbers else 1
+
 
 def scrap_watch_list(username, genres=[], workers=None):
     genre_url = "+".join(genres)
