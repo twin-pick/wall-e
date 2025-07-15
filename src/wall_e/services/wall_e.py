@@ -8,6 +8,7 @@ def get_genre(list):
         name_list += name + "+"
     return name_list[:-1]
 
+
 def get_date(name):
     date = ""
     for char in name:
@@ -23,44 +24,40 @@ session = requests.Session()
 session.headers.update(headers)
 
 
-
-def scrap_watch_list(username, genre = []):
+def scrap_watch_list(username, genre=[]):
     user_film = {}
     index = 1
     boucle = True
-    if (len(genre) > 0): 
-        url = "https://letterboxd.com/" + username + "/watchlist/genre/" + get_genre(genre) + "/by/rating/page/"
-    else :
-        url = "https://letterboxd.com/" + username + "/watchlist/by/rating/page/"
+    domain = "https://letterboxd.com/"
+    genres = get_genre(genre)
+    if (len(genre) > 0):
+        url = domain + username + "/watchlist/genre/" + genres + "/by/rating/page/"
+    else:
+        url = domain + username + "/watchlist/by/rating/page/"
     print(url)
     films = []
     new_list = []
     print(index)
     while (boucle and index < 1000):
         response = session.get(url + str(index))
-    
+
         # Vérifie si la requête s'est bien passée
         if response.status_code == 200:
-            print("Page chargée avec succès !")
+            print("Page succefuly load !")
             soup = BeautifulSoup(response.text, "html.parser")
             quotes = soup.find_all("li", class_="poster-container")
-            if (len(quotes) ==0 ):
+            if (len(quotes) == 0):
                 boucle = False
             films = films + quotes
             index += 1
-        
-            
+
         else:
             print("Time out")
             boucle = False
-        
 
     for film in films:
         title = film.find("img", class_="image").get("alt")
         new_list.append(title)
     user_film[username] = new_list
-    
-    
+
     return user_film[username]
-
-
