@@ -1,9 +1,13 @@
 from fastapi import FastAPI
+from services.wall_eV4 import scrap_watch_list as scrap_mark4
 from services.wall_eV3 import scrap_watch_list as scrap_mark3
 from services.wall_eV2 import scrap_watch_list as scrap_mark2
 from services.wall_e import scrap_watch_list as scrap
+from concurrent.futures import ThreadPoolExecutor
+import asyncio
 
 app = FastAPI()
+executor = ThreadPoolExecutor(max_workers=2)
 
 
 @app.get("/")
@@ -54,6 +58,27 @@ async def scrap_user_genre_mark3(user: str, genre: str):
     print(genre)
     list = scrap_mark3(user, genre)
     return list
+
+
+@app.get("/api/v4/{user}/watchlist")
+async def scrap_user_mark4(user: str):
+    loop = asyncio.get_running_loop()
+    result = await loop.run_in_executor(
+        executor,
+        lambda: scrap_mark4(user, [])  # ou passer des genres
+    )
+    return result
+
+
+@app.get("/api/v4/{user}/watchlist/{genre}")
+async def scrap_user_genre_mark4(user: str, genre: str):
+    genre = genre.split(',')
+    loop = asyncio.get_running_loop()
+    result = await loop.run_in_executor(
+        executor,
+        lambda: scrap_mark4(user, genre)  # ou passer des genres
+    )
+    return result
 
 
 @app.get("/api/health")
