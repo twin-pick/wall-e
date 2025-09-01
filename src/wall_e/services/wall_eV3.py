@@ -14,7 +14,7 @@ async def scrap_watchlist_page(page, username, page_num, genre):
 
     await page.goto(url)
     try:
-        await page.wait_for_selector(".poster-container", timeout=4000)
+        await page.wait_for_selector(".griditem", timeout=4000)
         await page.wait_for_timeout(200)
     except Exception:
         return []

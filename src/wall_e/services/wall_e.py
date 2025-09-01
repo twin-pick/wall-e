@@ -45,7 +45,7 @@ def scrap_watch_list(username, genre=[]):
         if response.status_code == 200:
             print("Page succefuly load !")
             soup = BeautifulSoup(response.text, "html.parser")
-            quotes = soup.find_all("li", class_="poster-container")
+            quotes = soup.find_all("li", class_="griditem")
             if (len(quotes) == 0):
                 boucle = False
             films = films + quotes
