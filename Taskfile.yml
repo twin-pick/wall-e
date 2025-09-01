@@ -1,0 +1,18 @@
+version: 3
+
+tasks:
+  install:
+    desc: Install dependencise
+    deps: [venv]
+    cmds: 
+      - poetry install
+  dev:
+    desc: Launch the server
+    deps: [install]
+    dir: src/wall_e
+    cmds:
+      - poetry run uvicorn main:app
+  venv:
+    desc: Launch virtual environement
+    cmds:
+      - poetry env use 3.12

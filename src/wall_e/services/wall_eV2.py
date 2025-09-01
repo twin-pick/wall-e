@@ -1,39 +1,29 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jun 23 14:08:58 2025
-
-@author: arthu
-"""
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import time
 import random
 import re
 
 
-from utilCompare import matchFilm  # tu le gardes si tu l’utilises plus tard
-
-def getGenre(liste):
-    return "+".join(liste)
+def get_genre_url_str(list_genres):
+    return "+".join(list_genres)
 
 
-
-def ScrapWatchList(username, genres=[]):
-    userFilm = {}
+def scrap_watch_list(username, genres=[]):
+    user_film = {}
     genre = genres
     index = 1
     films = []
     boucle = True
-
+    url_start = f"https://letterboxd.com/{username}/watchlist/"
+    sort = "/by/rating/page/"
 
     if genre:
-        url = f"https://letterboxd.com/{username}/watchlist/genre/{getGenre(genre)}/by/rating/page/"
+        url = f"{url_start}genre/{get_genre_url_str(genre)}{sort}"
     else:
-        url = f"https://letterboxd.com/{username}/watchlist/by/rating/page/"
-    
+        url = f"{url_start}{sort}"
+
     print("URL:", url)
 
     # Configuration de Selenium (headless facultatif)
@@ -48,15 +38,16 @@ def ScrapWatchList(username, genres=[]):
         while boucle and index < 1000:
             print(f"Chargement de la page {index}")
             driver.get(url + str(index))
-            time.sleep(random.uniform(0.1, 0.15))  # attendre un peu que la page charge
+            # attendre un peu que la page charge
+            time.sleep(random.uniform(0.1, 0.15))
 
             # Utiliser BeautifulSoup sur la source HTML complète
             soup = BeautifulSoup(driver.page_source, "html.parser")
 
-            quotes = soup.find_all("li", class_="poster-container")
-            
+            quotes = soup.find_all("li", class_="griditem")
+
             if not quotes:
-                print("Aucun film trouvé sur cette page.")
+                print("No movie found.")
                 boucle = False
             else:
                 films += quotes
@@ -65,18 +56,17 @@ def ScrapWatchList(username, genres=[]):
     finally:
         driver.quit()
 
-    newList = []
+    new_list = []
     for film in films:
         span = film.find("span", class_="frame-title")
         if span:
             value = span.get_text()
             match = re.match(r"^(.*)\s\((\d{4})\)$", value)
-            
+
             if match:
                 nom = match.group(1)
                 date = match.group(2)
-                newList.append({"title": nom, "date": date})
+                new_list.append({"title": nom, "date": date})
 
-    userFilm[username] = newList
-    return userFilm[username]
-
+    user_film[username] = new_list
+    return user_film[username]
