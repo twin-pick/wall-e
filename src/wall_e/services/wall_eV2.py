@@ -44,7 +44,7 @@ def scrap_watch_list(username, genres=[]):
             # Utiliser BeautifulSoup sur la source HTML complète
             soup = BeautifulSoup(driver.page_source, "html.parser")
 
-            quotes = soup.find_all("li", class_="poster-container")
+            quotes = soup.find_all("li", class_="griditem")
 
             if not quotes:
                 print("No movie found.")

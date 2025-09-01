@@ -29,7 +29,7 @@ async def scrap_single_page(username, page_num, genre_url):
 
         await page.goto(url)
         try:
-            await page.wait_for_selector(".poster-container", timeout=4000)
+            await page.wait_for_selector(".griditem", timeout=4000)
         except Exception:
             await browser.close()
             return []
