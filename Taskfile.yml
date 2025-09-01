@@ -6,9 +6,10 @@ tasks:
     deps: [venv]
     cmds: 
       - poetry install
+      - playwright install-deps  
+      - playwright install
   dev:
     desc: Launch the server
-    deps: [install]
     dir: src/wall_e
     cmds:
       - poetry run uvicorn main:app
