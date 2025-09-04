@@ -59,7 +59,11 @@ async def get_total_pages(username, genre_url=""):
         except Exception:
             await browser.close()
             return 0
-        pages = await page.locator(".paginate-page").all_text_contents()
+        locator = page.locator(".paginate-page")
+        if await locator.count() == 0:
+            await browser.close()
+            return 1
+        pages = await locator.all_text_contents()
         await browser.close()
         page_numbers = [int(p) for p in pages if p.isdigit()]
         return max(page_numbers) if page_numbers else 1
