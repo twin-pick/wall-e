@@ -58,7 +58,7 @@ async def get_total_pages(username, genre_url=""):
             await page.wait_for_selector(".paginate-page", timeout=4000)
         except Exception:
             await browser.close()
-            return 0
+            return 1
         locator = page.locator(".paginate-page")
         if await locator.count() == 0:
             await browser.close()
